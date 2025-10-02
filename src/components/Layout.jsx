@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { MAIN_LINKS } from '../app/nav.js'
+import { useAnnouncementsStore } from '../app/announcementsStore.js'
 
 const linkBase =
   'flex items-center gap-3 rounded-xl px-3 py-2 text-sm text-gray-700 hover:bg-gray-100'
 
 export default function Layout() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { currentUser } = useAnnouncementsStore()
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
       <div className="flex min-h-screen">
@@ -66,7 +68,11 @@ export default function Layout() {
                     3
                   </span>
                 </button>
-                <div className="h-9 w-9 rounded-full bg-gray-300" />
+                <img
+                  src={currentUser?.avatarUrl || '/avatar.png'}
+                  alt={currentUser?.name || 'Profile'}
+                  className="h-9 w-9 rounded-full object-cover ring-1 ring-gray-200 bg-gray-200"
+                />
               </div>
             </div>
           </div>
@@ -115,9 +121,7 @@ function SidebarContent({ onNavigate }) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center gap-3 px-4 py-4 border-b">
-        <div className="h-9 w-9 rounded-full bg-blue-600 text-white grid place-items-center font-bold">
-          JU
-        </div>
+        <img src="/ju-logo.png" alt="JU HUB" className="h-9 w-9 rounded-full object-cover ring-1 ring-gray-200 bg-white" />
         <div className="text-lg font-semibold">JU HUB</div>
       </div>
 

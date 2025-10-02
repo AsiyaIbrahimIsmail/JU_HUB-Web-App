@@ -11,79 +11,125 @@ This app is set up for four pages developed in parallel using a shared Cards sys
 ## Project structure
 
 ```
-src/
-  components/
-    pages/
-      Dashboard.jsx
-      ManageClubs.jsx
-      Announcements.jsx
-      ManageChannels.jsx
-    cards/
-      index.js
-      parts/
-        Card.jsx
-        CardHeader.jsx
-        CardBody.jsx
-        CardFooter.jsx
-        CardGrid.jsx
-        CardImage.jsx
-        CardActions.jsx
-      variants/
-        StatCard.jsx
-        ListCard.jsx
-        MediaCard.jsx
-        ActionCard.jsx
-      utils/
-        cardConstants.js
-        cardFormatters.js
-        classNames.js
-  App.jsx
-  main.jsx
-  index.css
+faculty-dashboard/
+├── public/
+│   └── vite.svg
+├── src/
+│   ├── components/
+│   │   ├── Layout.jsx
+│   │   ├── pages/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── ManageClubs.jsx
+│   │   │   ├── Announcements.jsx
+│   │   │   └── ManageChannels.jsx
+│   │   ├── clubs/
+│   │   │   ├── ApproveQueue.jsx
+│   │   │   ├── AddNewClub.jsx
+│   │   │   ├── EditClub.jsx
+│   │   │   └── DeleteClub.jsx
+│   │   ├── announcements/
+│   │   │   ├── CreateAnnouncement.jsx
+│   │   │   ├── EditAnnouncement.jsx
+│   │   │   └── DeleteAnnouncement.jsx
+│   │   └── channels/
+│   │       ├── ChannelSettings.jsx
+│   │       ├── ChannelDetail.jsx
+│   │       ├── ChannelView.jsx
+│   │       └── NewPost.jsx
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── index.html
+├── package.json
+├── vite.config.js
+├── tailwind.config.js
+└── postcss.config.js
 ```
 
-## Packages
+Note: the app currently uses `Layout.jsx` as the shell (sidebar + topbar). `App.jsx` is included to match the structure file; routing is configured in `src/main.jsx`.
 
-Runtime: react, react-dom, react-router-dom, axios, zustand, clsx
-Dev: vite, @vitejs/plugin-react, tailwindcss, postcss, autoprefixer, @tailwindcss/forms, @tailwindcss/typography, eslint (+react, hooks, a11y), prettier, vitest, @testing-library/react, @testing-library/jest-dom, jsdom
+## Getting started
 
-## Tailwind
-
-- Config in `tailwind.config.js`
-- Base CSS in `src/index.css` using `@tailwind` directives
-
-## Routing
-
-`src/main.jsx` uses React Router with nested routes under `App.jsx`:
-- "/" → `Dashboard`
-- "/clubs" → `ManageClubs`
-- "/announcements" → `Announcements`
-- "/channels" → `ManageChannels`
-
-## Cards usage
-
-Import from `src/components/cards`:
-
-```jsx
-import { Card, CardHeader, CardBody, CardFooter, CardGrid, StatCard } from '@/components/cards'
+```
+cd faculty-dashboard
+npm install
+npm run dev
 ```
 
-Example:
+## Build
 
-```jsx
-<CardGrid columns={{ base: 1, md: 2, xl: 4 }}>
-  <StatCard label="Active Clubs" value={42} delta="+4 this week" />
-  {/* other cards */}
-  
-</CardGrid>
+```
+npm run build
+npm run preview
 ```
 
-## Team Guidelines
+## Tech
 
-- Each page owner works in their page file
-- New shared card variants go under `cards/variants` and exported in `cards/index.js`
-- Shared utilities go in `cards/utils`
-- Keep styles via Tailwind utilities; avoid custom CSS unless necessary
+- React + Vite
+- React Router
+- Tailwind CSS v4 (`@import "tailwindcss";` in `src/index.css` and `@tailwindcss/postcss` in `postcss.config.js`)
 
+## Routes
 
+- `/` Dashboard
+- `/channels` ManageChannels
+- `/clubs` ManageClubs
+- `/announcements` Announcements
+- Sub-pages under channels, clubs, announcements are in their respective folders.
+
+## Team workflow and expectations
+
+- Ownership
+  - Dashboard: Amina Nor
+  - ManageClubs: Asiya
+  - Announcements: Sumaya
+  - ManageChannels: Maimun
+  - Asistant: Aisha
+
+- Branching
+  - Create feature branches per task: `feature/<area>-<short-desc>` (e.g., `feature/clubs-approve-queue`)
+  - Keep `main` protected; PRs only
+
+- Daily workflow
+  1. `git pull --rebase origin main`
+  2. Implement in small commits
+  3. Open a PR early; request 1 reviewer
+  4. Address review, merge when CI passes
+
+- Definition of Done (quality bar)
+  - Functional: feature works end-to-end with realistic sample data
+  - Dynamic: UI renders from props/state; avoid hard-coded UI where data-driven is expected
+  - Responsive: mobile (≤640px), tablet, desktop layouts validated
+  - Accessible: semantic elements, focus styles, color contrast
+  - Tested: add/adjust unit tests where logic exists (Vitest + RTL)
+  - Documented: README or component docstring explains how to use or wire
+
+- Coding standards
+  - JS only (no TS). React function components
+  - Tailwind v4 utilities; keep custom CSS minimal
+  - Use `src/components/Layout.jsx` for the shell
+  - Routes live in `src/main.jsx`; add new pages via nested routes
+  - Update nav in `src/app/nav.js` for sidebar/topbar links
+  - Shared state only when needed (Zustand); otherwise keep state local
+
+- Commits and PRs
+  - Conventional commits: `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`
+  - PR description: what, why, screenshots/GIFs; list any follow-ups
+
+- Review checklist (before asking for review)
+  - No console errors, no unused imports
+  - Keyboard navigation works; focus visible
+  - Breakpoints checked (sm/md/lg)
+  - Empty/loading/error states handled gracefully
+
+## Contributing steps (quickstart)
+
+```
+git checkout -b feature/<area>-<short-desc>
+npm run dev
+# implement
+git add -A && git commit -m "feat(<area>): <message>"
+git push -u origin HEAD
+# open PR on GitHub
+```
 
